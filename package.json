@@ -1,0 +1,15 @@
+{
+  "author": "Finn <finn@finn.io>",
+  "dependencies": {
+    "bootstrap": "4.0.0-alpha.5"
+  },
+  "description": "Piston pushes notifications to your webbrowser",
+  "license": "GPL-3.0",
+  "main": "index.js",
+  "name": "piston",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thefinn93/piston"
+  },
+  "version": "0.0.1"
+}

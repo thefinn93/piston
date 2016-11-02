@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<br />
+<div class="card">
+
+  <div class="card-block">
+    <h4 class="card-title">Allow {% if c.name is string %}{{ c.name }}{% else %}{{ c.domain }}{% endif %} to send you notifications?</h4>
+    <p class="card-subtitle text-muted">
+      {% if c.name is string %}{{ c.name }} (<code>{{ c.domain }}</code>){% else %}{{ c.domain }}{% endif %} would like to send push notifications to your device.
+      You can edit this preference at any time by visiting <a href="{{ url_for('index', _external=true) }}">{{ root }}</a>
+    </p>
+  </div>
+
+  {% if "image" in c %}
+  <img src="{{ c.image }}" />
+  {% endif %}
+
+  <div class="card-block text-xs-center">
+    <form method="post" action="{{ url_for('register.post_register') }}">
+      <input type="hidden" name="redirect_url" value="{{ c.redirect_url }}" />
+      {{ csrf_token() | safe }}
+      <input type="submit" name="action" value="Allow" class="btn btn-success" />
+      <input type="submit" name="action" value="Deny" class="btn btn-danger" />
+    </form>
+  </div>
+
+</div>
+{% endblock %}
