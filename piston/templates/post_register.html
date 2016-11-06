@@ -9,7 +9,7 @@
   <div class="card-block">
     <h4 class="card-title"></h4>
     <p class="card-subtitle text-muted">
-      Forwarding you back to <code>{{ redirect_url }}</code>...
+      Forwarding you back to <code>{{ redirect_url }}</code> with token <code>{{ registration.token }}</code>
     </p>
   </div>
 
@@ -17,6 +17,11 @@
 
 <form class="redirect-form" action="{{ redirect_url }}" method="post">
   {% if nonce is not none %}<input type="hidden" name="nonce" value="{{ nonce }}" />{% endif %}
-  <input type="hidden" name="token" value="{{ token }}" />
+  <input type="hidden" name="token" value="{{ registration.token }}" />
 </form>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/post_register.js') }}">
+</script>
 {% endblock %}

@@ -18,14 +18,27 @@
   <img src="{{ c.image }}" />
   {% endif %}
 
-  <div class="card-block text-xs-center">
-    <form method="post" action="{{ url_for('register.post_register') }}">
+  <div class="card-block text-xs-center no-notifications">
+    <p class="card-subtitle text-muted">
+      Your browser doesn't support the type of notifications we know how to send!
+    </p>
+    <a href="{{ c.redirect_url }}" class="btn btn-warning">Continue</a>
+    <a href="https://github.com/thefinn93/piston" class="btn btn-success">Add Support</a>
+  </div>
+
+  <div class="card-block text-xs-center yes-notifications hidden">
+    <form method="post" action="{{ url_for('register.post_register') }}" class="approval-form">
       <input type="hidden" name="redirect_url" value="{{ c.redirect_url }}" />
+      <input type="hidden" name="name" value="{{ c.name }}" />
+      <input type="hidden" name="subscription" value="unset" />
       {{ csrf_token() | safe }}
-      <input type="submit" name="action" value="Allow" class="btn btn-success" />
+      <input type="submit" name="action" value="Allow" class="btn btn-success btn-allow" />
       <input type="submit" name="action" value="Deny" class="btn btn-danger" />
     </form>
   </div>
-
 </div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/register.js') }}"></script>
 {% endblock %}
