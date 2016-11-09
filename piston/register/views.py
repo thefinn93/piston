@@ -46,6 +46,7 @@ def register_page():
 
 
 @app.route("/next", methods=["POST"])
+@piston.csrf.token_required
 def post_register():
     """Accept or deny the registration request."""
     if request.form.get("action") is None:
