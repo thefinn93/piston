@@ -14,11 +14,13 @@ class Notification(db.Model):
     title = db.Column(db.String())
     body = db.Column(db.String())
     url = db.Column(db.String())
+    read = db.Column(db.Boolean)
 
-    def __init__(self, token, title, body=None, url=None):
+    def __init__(self, token, title, body=None, url=None, read=False):
         self.title = title
         self.body = body
         self.url = url
+        self.read = read
 
         registration = Registration.query.filter_by(token=token).first()
         assert registration is not None, "Invalid token!"

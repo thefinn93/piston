@@ -1,6 +1,8 @@
 """EasyPush is a tool to help send notifications from the web."""
 from flask import Flask, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+
 
 import piston.csrf
 
@@ -13,6 +15,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config.from_pyfile("config.py")
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
 
 app.jinja_env.globals['csrf_token'] = piston.csrf.generate_token
 

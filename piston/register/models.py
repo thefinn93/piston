@@ -1,6 +1,8 @@
 """Models related to registrations."""
 import string
 import random
+import json
+
 from piston import db
 
 
@@ -20,6 +22,7 @@ class Registration(db.Model):
     name = db.Column(db.String(120), nullable=False)
     domain = db.Column(db.String(120), nullable=False)
     subscription = db.Column(db.String(500), nullable=False)
+    subscription_token = db.Column(db.String)
     enabled = db.Column(db.Boolean, default=True)
 
     def __init__(self, domain, subscription, name, token=None, enabled=True):
@@ -28,6 +31,11 @@ class Registration(db.Model):
         self.name = name if name is not None else domain
         self.token = token if token is not None else gentoken(64)
         self.enabled = enabled
+        try:
+            subscription = json.loads(subscription)
+            self.subscription_token = subscription.get("endpoint").split("/")[-1]
+        except ValueError:
+            pass
 
     def __repr__(self):
         return '<Registration %r>' % self.domain

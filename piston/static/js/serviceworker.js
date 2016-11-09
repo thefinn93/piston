@@ -1,11 +1,18 @@
 self.addEventListener('push', function(event) {
-  console.log('Received a push message', event);
-  var notificationPromise = fetch('/notifications/unread', {credentials: 'include'}).then(function(response) {
-    if(response.status == 200) {
-      response.json().then(function(data) {makeNotification(data, self.registration);});
-    } else {
-      console.error("Failed to fetch unread notifications! This is proly bad!");
-    }
+  var notificationPromise = registration.pushManager.getSubscription().then((subscription) => {
+    var headers = new Headers();
+
+    var gcm_endpoint = subscription.endpoint.split("/");
+    headers.append("X-Token", gcm_endpoint[gcm_endpoint.length-1]);
+
+    var unreadRequest = fetch('/notifications/unread', {headers: headers}).then((response) => {
+      if(response.status == 200) {
+        response.json().then((data) => {makeNotification(data, self.registration);});
+      } else {
+        console.error("Failed to fetch unread notifications! This is proly bad!");
+      }
+    });
+    return unreadRequest;
   });
   event.waitUntil(notificationPromise);
 });
