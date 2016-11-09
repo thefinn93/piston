@@ -10,6 +10,8 @@ app = Blueprint('notification', __name__)
 
 def serialize(notification):
     serialized = notification.__dict__
+    if '_sa_instance_state' in serialized:
+        del serialized['_sa_instance_state']
     return serialized
 
 
@@ -38,7 +40,7 @@ def unread():
             "error": "Invalid token"
         }), 401
 
-    notifications = Notification.filter_by(registration=registration, read=False).all()
+    notifications = Notification.query.filter_by(registration=registration, read=False).all()
     return jsonify({
         "notifications": [serialize(n) for n in notifications]
     })
