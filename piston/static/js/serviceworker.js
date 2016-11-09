@@ -21,16 +21,8 @@ function makeNotification(data, registration) {
   if (data.error) {
     console.error('The API returned an error.', data.error);
     throw new Error();
-  } else if(data.hasOwnProperty("signed_in") && data.signed_in === false) {
-    registration.showNotification("You've been signed out of easy push!", {
-      body: "Click here to sign back in.",
-      tag: 'piston-signout',
-      data: {
-        url: "/settings"
-      }
-    });
   } else {
-    data.forEach(function(notification) {
+    data.notifications.forEach(function(notification) {
       console.log(notification);
       if(!notification.title) {
         new Error("No title for notification!");
