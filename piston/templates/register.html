@@ -2,10 +2,8 @@
 
 {% block title %}Register{% endblock %}
 
-{% block content %}
-<br />
-<div class="card">
-
+{% block body %}
+<div class="card mx-auto single-card-page">
   <div class="card-block">
     <h4 class="card-title">Allow {% if c.name is string %}{{ c.name }}{% else %}{{ c.domain }}{% endif %} to send you notifications?</h4>
     <p class="card-subtitle text-muted">

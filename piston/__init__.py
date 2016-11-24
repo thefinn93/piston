@@ -39,6 +39,12 @@ def serviceworker():
     return app.send_static_file('js/serviceworker.js')
 
 
+@app.route('/docs')
+def docs():
+    """Render the documentation."""
+    return render_template('docs.html')
+
+
 @app.route("/manifest.json")
 def manifest():
     """Send the manifest."""

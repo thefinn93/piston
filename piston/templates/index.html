@@ -1,12 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<br />
-<div class="col-md-6 offset-md-3">
-  <div class="jumbotron">
-    <h1 class="display-3">Piston</h1>
-    <p class="lead">Piston is a radically disrupting the push notification industry. Literally Uber for popups.</p>
-    <p><a class="btn btn-lg btn-success" href="#" role="button">Get Hype</a></p>
-  </div>
+<div class="jumbotron">
+  <h1 class="display-3">Piston</h1>
+  <p class="lead">Piston is a radically disrupting the push notification industry. Literally Uber for popups.</p>
+  <p><a class="btn btn-lg btn-outline-primary btn-lg" href="{{ url_for('docs') }}" role="button">Read The Docs &raquo;</a></p>
 </div>
 {% endblock %}
