@@ -1,0 +1,22 @@
+{
+  "authors": [
+    "Finn Herzfeld <finn@finn.io>"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha.5"
+  },
+  "description": "Piston pushes notifications to your webbrowser",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "piston/static/vendor",
+    "test",
+    "tests"
+  ],
+  "license": "GPL-3.0",
+  "main": "index.js",
+  "name": "piston",
+  "private": true
+}
