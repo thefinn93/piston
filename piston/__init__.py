@@ -1,7 +1,8 @@
 """EasyPush is a tool to help send notifications from the web."""
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from raven.contrib.flask import Sentry
 
 
 import piston.csrf
@@ -15,11 +16,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config.from_pyfile("config.py", silent=True)
 app.config.from_pyfile("/etc/piston/config.py", silent=True)
 
+sentry = Sentry(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
 app.jinja_env.globals['csrf_token'] = piston.csrf.generate_token
+app.jinja_env.globals['public_dsn'] = sentry.client.get_public_dsn('https')
 
 import piston.register  # noqa: E104
 import piston.notifications  # noqa: E014
@@ -63,6 +66,11 @@ def manifest():
         "display": "standalone",
         "gcm_sender_id": app.config['GCM_ID']
     })
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('500.html', event_id=g.sentry_event_id)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

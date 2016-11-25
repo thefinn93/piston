@@ -1,4 +1,7 @@
+blinker==1.4
+contextlib2==0.5.4
 Flask==0.10.1
 Flask-Migrate==2.0.0
 Flask-SQLAlchemy==2.1
+raven==5.32.0
 requests==2.11.1

@@ -3,7 +3,8 @@
     "Finn Herzfeld <finn@finn.io>"
   ],
   "dependencies": {
-    "bootstrap": "v4.0.0-alpha.5"
+    "bootstrap": "v4.0.0-alpha.5",
+    "raven-js": "^3.8.1"
   },
   "description": "Piston pushes notifications to your webbrowser",
   "homepage": "",
