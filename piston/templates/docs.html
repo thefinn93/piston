@@ -78,11 +78,11 @@
       </td>
     </table>
     <br />
-    Use standard HTTP authorization, the username part is ignored, the password should be the token.
-    For example:
+    Use standard HTTP authorization, the username must be <code>token</code>, the password should be
+    the token actual token. For example:
     <br /><br />
     <code>
-      curl -u "token:askdfjsidfasdergasdf" -d "title=Awesome Notification" -d "body=wow this is so cool" -d "url=https://example.org" {{ url_for('notification.create', _external=true) }}
+      curl -u "token:ITOd2_SxNuiG4O4ZJFptCrKZ9K8GTiQGTb68NSDeNVMxYPgXISH3ca16ypyfThIb" -d "title=Awesome Notification" -d "body=wow this is so cool" -d "url=https://example.org" {{ url_for('notification.create', _external=true) }}
     </code>
     <br /><br />
     Assuming <code>askdfjsidfasdergasdf</code> is your token
