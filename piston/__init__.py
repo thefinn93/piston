@@ -12,10 +12,14 @@ app = Flask(__name__)
 
 app.config['USER_AGENT'] = "Piston/%s" % __version__
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SENTRY_CONFIG'] = {
+    "release": __version__
+}
 app.config.from_pyfile("config.py", silent=True)
 app.config.from_pyfile("/etc/piston/config.py", silent=True)
 
-sentry = Sentry(app, release=__version__)
+
+sentry = Sentry(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
