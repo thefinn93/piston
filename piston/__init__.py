@@ -12,7 +12,8 @@ app = Flask(__name__)
 
 app.config['USER_AGENT'] = "Piston/%s" % __version__
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config.from_pyfile("config.py")
+app.config.from_pyfile("config.py", silent=True)
+app.config.from_pyfile("/etc/piston/config.py", silent=True)
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
