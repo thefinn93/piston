@@ -45,12 +45,14 @@ function onSubmit(e) {
           document.querySelector(".approval-form").submit();
         }).catch((e) => {
           var exception = Raven.captureException(e);
+          exception.showReportDialog();
           console.log(e, exception);
         });
       });
     }
   }).catch((e) => {
     var exception = Raven.captureException(e);
+    exception.showReportDialog();
     console.log(e, exception);
   });
 }
