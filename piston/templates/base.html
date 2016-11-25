@@ -29,7 +29,7 @@
       {% block content %}{% endblock %}
     </div>
     <footer class="footer text-xs-center text-muted">
-      Piston {{ piston_version }}
+      Piston {% if "-" in piston_version %}<code>{{ piston_version }}</code>{% else %}{{ piston_version }}{% endif %}
     </footer>
     {% endblock %}
     <script src="{{ url_for('static', filename='vendor/raven-js/dist/raven.min.js') }}"></script>
