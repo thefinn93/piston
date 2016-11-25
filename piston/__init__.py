@@ -5,10 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from raven.contrib.flask import Sentry
 
-
 import piston.csrf
-
-__version__ = "0.0.1"
+from piston.version import __version__
 
 app = Flask(__name__)
 
@@ -17,13 +15,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config.from_pyfile("config.py", silent=True)
 app.config.from_pyfile("/etc/piston/config.py", silent=True)
 
-sentry = Sentry(app)
+sentry = Sentry(app, release=__version__)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
 app.jinja_env.globals['csrf_token'] = piston.csrf.generate_token
 app.jinja_env.globals['public_dsn'] = sentry.client.get_public_dsn('https')
+app.jinja_env.globals['piston_version'] = __version__
 
 import piston.register  # noqa: E104
 import piston.notifications  # noqa: E014
