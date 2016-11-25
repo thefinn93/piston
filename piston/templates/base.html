@@ -32,6 +32,10 @@
       Piston {{ piston_version }}
     </footer>
     {% endblock %}
+    <script src="{{ url_for('static', filename='vendor/raven-js/dist/raven.min.js') }}"></script>
+    <script type="text/javascript">
+    Raven.config('{{ public_dsn }}', {release: '{{ piston_version }}'}).install()
+    </script>
     {% block js %}{% endblock %}
   </body>
 </html>
