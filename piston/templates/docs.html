@@ -14,9 +14,9 @@
       it, a user just clicks a few buttons. No app installs needed.
     </p>
     <h3>User Registration</h3>
-    The system is pretty simple. First, you serve a JSON file on your webserver. It must be
-    accessible over HTTPS. There are several keys this JSON file might want, here's a nice table of
-    what you can provide.
+    The registration/subscription system is pretty simple. You send the user to
+    <code>{{ url_for('register.register_page', _external=true) }}</code> with either a query
+    parameters or POST data for the following fields:
     <br /><br />
     <table class="table">
       <thead>
@@ -48,13 +48,10 @@
       </tr>
     </table>
     <br />
-    You send the user to <code>{{ url_for('register.register_page', _external=true) }}</code>
-    with either a query parameter or POST data key <code>config</code> and a value of the URL for
-    your config file. In the future, you may be able to send these as POST data or query params,
-    rather than in this janky JSON file thing. The users is shown a nice dialog asking if they want
-    to allow you to send notifications. After they select Allow or Deny, they are redirected to
-    to the specified <code>redirect_url</code>. If the user allowed the request, the redirect will
-    be a POST with a key <code>token</code> which contains that token to send them notifications.
+    The users is shown a nice dialog asking if they want to allow you to send notifications. After
+    they select Allow or Deny, they are redirected to to the specified <code>redirect_url</code>.
+    If the user allowed the request, the redirect will be a POST with a key <code>token</code> which
+    contains that token to send them notifications.
     <br /><br />
     <h3>Sending Notifications</h3>
     Once you have a token for a user, you probably will want to send them a notification! To do

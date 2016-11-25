@@ -1,7 +1,6 @@
 """Functions and endpoints related to registering for notifications from a site."""
 from flask import Blueprint, render_template, request
 from urllib.parse import urlparse
-import requests
 
 import piston
 from piston.register import exceptions
@@ -9,26 +8,14 @@ from piston.register import exceptions
 app = Blueprint('register', __name__)
 
 
-def checkconfig(url):
+def checkconfig():
     """Retreive a configuration from a given URL and ensure that it complies with the rules."""
-    parsed_url = urlparse(url)
-
-    if parsed_url.scheme != "https":
-        raise exceptions.InsecureConfigSchemeException("config must be loaded over https!")
-
-    config = requests.get(url, headers={"User-Agent": "Piston/%s" % piston.__version__}).json()
-
+    config = request.args.copy()
     if "redirect_url" not in config:
-        raise exceptions.ConfigurationException("Your configuration is missing a redirect_url!",
-                                                config)
-
+        raise exceptions.ConfigurationException("You're is missing a redirect_url!", config)
     redirect = urlparse(config['redirect_url'])
     if redirect.scheme != "https":
         raise exceptions.InsecureRedirectException("The redirect_url must be https")
-
-    # if redirect.netloc != parsed_url.netloc:
-    #     raise DomainMismatchException("redirect_url and config_url must share a domain.")
-
     config['domain'] = redirect.netloc
     return config
 
@@ -37,7 +24,7 @@ def checkconfig(url):
 def register_page():
     """Register a client to send notifications to."""
     try:
-        config = checkconfig(request.args.get("config"))
+        config = checkconfig()
         return render_template("register.html",
                                c=config,
                                root=request.headers['Host'])
