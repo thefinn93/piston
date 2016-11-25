@@ -43,9 +43,15 @@ function onSubmit(e) {
         serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true}).then((subscription) => {
           document.querySelector("input[name='subscription']").value = JSON.stringify(subscription.toJSON());
           document.querySelector(".approval-form").submit();
+        }).catch((e) => {
+          var exception = Raven.captureException(e);
+          console.log(e, exception);
         });
       });
     }
+  }).catch((e) => {
+    var exception = Raven.captureException(e);
+    console.log(e, exception);
   });
 }
 
