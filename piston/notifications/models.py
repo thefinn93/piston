@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 
 from piston import db
 from piston.register.models import Registration
+from piston.notifications import exceptions
 from piston.notifications import gcm
 
 
@@ -23,7 +24,8 @@ class Notification(db.Model):
         self.read = read
 
         registration = Registration.query.filter_by(token=token).first()
-        assert registration is not None, "Invalid token!"
+        if registration is None:
+            raise exceptions.InvalidTokenException()
         self.registration = registration
         self.send()
 
@@ -34,9 +36,4 @@ class Notification(db.Model):
         if endpoint.netloc == "android.googleapis.com":
             gcm.send(subscription)
         else:
-            raise UnknownEndpointException(endpoint)
-
-
-class UnknownEndpointException(Exception):
-
-    pass
+            raise exceptions.UnknownEndpointException(endpoint)

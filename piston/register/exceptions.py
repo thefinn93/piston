@@ -1,8 +1,9 @@
-class ConfigurationException(Exception):
-    """A given configuration file is invalid."""
+from piston.exceptions import PistonException
 
-    def __str__(self):
-        return self.args[0]
+
+class ConfigurationException(PistonException):
+    """A given configuration file is invalid."""
+    pass
 
 
 class ConfigurationMissingKeysException(ConfigurationException):

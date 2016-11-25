@@ -4,6 +4,7 @@ from flask import Blueprint, request, jsonify
 from piston.notifications.models import Notification
 from piston.register.models import Registration
 from piston import db
+from piston import exceptions
 
 app = Blueprint('notification', __name__)
 
@@ -17,18 +18,16 @@ def serialize(notification):
 
 @app.route('/create', methods=["POST"])
 def create():
-    if request.authorization.username != "token":
+    try:
+        notification = Notification(request.authorization.password, request.form.get("title"),
+                                    request.form.get("body"), request.form.get("url"))
+        db.session.add(notification)
+        db.session.commit()
         return jsonify({
-            "error": "Unauthorized - authorization incorrect"
-        }), 401
-
-    notification = Notification(request.authorization.password, request.form.get("title"),
-                                request.form.get("body"), request.form.get("url"))
-    db.session.add(notification)
-    db.session.commit()
-    return jsonify({
-        "success": True
-    })
+            "success": True
+        })
+    except exceptions.PistonException as e:
+        return jsonify(e.__dict__()), e.status_code
 
 
 @app.route("/unread")
