@@ -1,28 +1,17 @@
 class ConfigurationException(Exception):
     """A given configuration file is invalid."""
 
-    pass
-
-
-class InsecureConfigSchemeException(ConfigurationException):
-    """The provided config URL is not over https."""
-
-    pass
+    def __str__(self):
+        return self.args[0]
 
 
 class ConfigurationMissingKeysException(ConfigurationException):
-    """The provided config URL is missing required keys."""
+    """The provided config is missing required keys."""
 
     pass
 
 
 class InsecureRedirectException(ConfigurationException):
     """The provided redirect URL is not over https."""
-
-    pass
-
-
-class DomainMismatchException(ConfigurationException):
-    """The provided config URL and the redirect URL do not share a domain."""
 
     pass
