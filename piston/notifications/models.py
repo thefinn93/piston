@@ -15,11 +15,15 @@ class Notification(db.Model):
     title = db.Column(db.String())
     body = db.Column(db.String())
     url = db.Column(db.String())
+    properties = db.Column(db.String())
     read = db.Column(db.Boolean)
 
-    def __init__(self, token, title, body=None, url=None, read=False):
+    def __init__(self, token, title, body=None, properties=None, url=None, read=False):
         self.title = title
         self.body = body
+        if "actions" in properties:
+            properties['actions'] = json.loads(properties['actions'])
+        self.properties = json.dumps(properties)
         self.url = url
         self.read = read
 

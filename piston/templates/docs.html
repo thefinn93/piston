@@ -76,6 +76,18 @@
         <td><code>url</code></td>
         <td>The URL to send the user to when they click on the notification</td>
       </td>
+      <tr>
+        <td><code>icon</code></td>
+        <td>The URL of the icon to display with the notification</td>
+      </tr>
+      <tr>
+        <td><code>requireInteraction</code></td>
+        <td>Indicates that on devices with sufficiently large screens, a notification should remain
+          active until the user clicks or dismisses it. If this value is absent or false, the
+          desktop version of Chrome will auto-minimize notifications after approximately twenty
+          seconds. Set to <code>true</code> or <code>false</code> (defaults to <code>false</code>)
+        </td>
+      </tr>
     </table>
     <br />
     Use standard HTTP authorization, the username must be <code>token</code>, the password should be

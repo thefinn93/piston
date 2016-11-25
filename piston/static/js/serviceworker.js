@@ -27,11 +27,10 @@ function makeNotification(data, registration) {
       if(!notification.title) {
         new Error("No title for notification!");
       }
+      notification.tag = 'piston-' + notification.id;
       registration.showNotification(notification.title, {
         body: notification.body,
-        icon: notification.icon,
-        data: notification,
-        tag: 'piston-' + notification.id
+        options: notification
       });
     });
   }
@@ -41,7 +40,11 @@ self.addEventListener('notificationclick', function(event) {
   event.notification.close();
   var windowOpen = new Promise(function(resolve, reject) { resolve(); });
   if(event.notification.data.url || event.notification.data.url !== null) {
-    windowOpen = clients.openWindow(event.notification.data.url);
+    var url = event.notification.data.url;
+    if(event.action) {
+      url = url + "?action=" + event.action;
+    }
+    windowOpen = clients.openWindow(url);
   } else {
     windowOpen = clients.openWindow('/notifications/' + event.notification.data.id);
   }
