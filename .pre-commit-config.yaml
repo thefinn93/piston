@@ -10,6 +10,7 @@
   - id: debug-statements
   - id: end-of-file-fixer
   - id: flake8
+    args: ['--config=setup.cfg']
   - id: pretty-format-json
     args: ['--autofix']
   - id: requirements-txt-fixer
