@@ -1,4 +1,5 @@
-"""EasyPush is a tool to help send notifications from the web."""
+"""Piston is a tool to help send notifications from the web."""
+import logging
 from flask import Flask, render_template, jsonify, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -66,6 +67,14 @@ def manifest():
         "display": "standalone",
         "gcm_sender_id": app.config['GCM_ID']
     })
+
+
+@app.before_first_request
+def setup_logging():
+    if not app.debug:
+        # In production mode, add log handler to sys.stderr.
+        app.logger.addHandler(logging.StreamHandler())
+        app.logger.setLevel(logging.INFO)
 
 
 @app.errorhandler(500)
