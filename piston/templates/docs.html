@@ -21,100 +21,100 @@ along with Piston.  If not, see <http://www.gnu.org/licenses/>.
 <div class="container">
   <h1>Piston Docs</h1>
   <p class="text-muted">Hastily written, ask me or read the source code for more details.</p>
-</div>
-<div class="row">
-  <div class="col-md-10 offset-md-1">
-    <p>
-      Piston grew out of my dislike of PushBullet's increasing permissions, and general shittyness.
-      So I built my own. It doesn't require an any special apps, just Chrome (There's no technical
-      reason Firefox doesn't work, I just haven't added support for it yet). Thus, Piston. To use
-      it, a user just clicks a few buttons. No app installs needed.
-    </p>
-    <h3>User Registration</h3>
-    The registration/subscription system is pretty simple. You send the user to
-    <code>{{ url_for('register.register_page', _external=true) }}</code> with either a query
-    parameters or POST data for the following fields:
-    <br /><br />
-    <table class="table">
-      <thead>
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <p>
+        Piston grew out of my dislike of PushBullet's increasing permissions, and general shittyness.
+        So I built my own. It doesn't require an any special apps, just Chrome (There's no technical
+        reason Firefox doesn't work, I just haven't added support for it yet). Thus, Piston. To use
+        it, a user just clicks a few buttons. No app installs needed.
+      </p>
+      <h3>User Registration</h3>
+      The registration/subscription system is pretty simple. You send the user to
+      <code>{{ url_for('register.register_page', _external=true) }}</code> with either a query
+      parameters or POST data for the following fields:
+      <br /><br />
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Required?</th>
+            <th>Description</th>
+          </tr>
+        </thead>
         <tr>
-          <th>Key</th>
-          <th>Required?</th>
-          <th>Description</th>
+          <td><code>redirect_url</code></td>
+          <td>yes</td>
+          <td>The URL we send the user to after they have authorized push notifications. The scheme must be https.</td>
         </tr>
-      </thead>
-      <tr>
-        <td><code>redirect_url</code></td>
-        <td>yes</td>
-        <td>The URL we send the user to after they have authorized push notifications. The scheme must be https.</td>
-      </tr>
-      <tr>
-        <td><code>name</code></td>
-        <td>no</td>
-        <td>The name of your service to show to users</td>
-      </tr>
-      <tr>
-        <td><code>description</code></td>
-        <td>no</td>
-        <td>A brief description of your service.</td>
-      </tr>
-      <tr>
-        <td><code>image</code></td>
-        <td>no</td>
-        <td>An image for your service.</td>
-      </tr>
-    </table>
-    <br />
-    The users is shown a nice dialog asking if they want to allow you to send notifications. After
-    they select Allow or Deny, they are redirected to to the specified <code>redirect_url</code>.
-    If the user allowed the request, the redirect will be a POST with a key <code>token</code> which
-    contains that token to send them notifications.
-    <br /><br />
-    <h3>Sending Notifications</h3>
-    Once you have a token for a user, you probably will want to send them a notification! To do
-    this, make an HTTP POST request to <code>{{ url_for('notification.create', _external=true) }}</code>
-    with the following post data:<br /><br />
-    <table class="table">
-      <thead>
         <tr>
-          <th>Key</th>
-          <th>Description</th>
+          <td><code>name</code></td>
+          <td>no</td>
+          <td>The name of your service to show to users</td>
         </tr>
-      </thead>
-      <tr>
-        <td><code>title</code></td>
-        <td>The title of the notification to show to the user.</td>
-      </tr>
-      <tr>
-        <td><code>body</code></td>
-        <td>The body of the notifications</td>
-      </tr>
-      <tr>
-        <td><code>url</code></td>
-        <td>The URL to send the user to when they click on the notification</td>
-      </td>
-      <tr>
-        <td><code>icon</code></td>
-        <td>The URL of the icon to display with the notification</td>
-      </tr>
-      <tr>
-        <td><code>requireInteraction</code></td>
-        <td>Indicates that on devices with sufficiently large screens, a notification should remain
-          active until the user clicks or dismisses it. If this value is absent or false, the
-          desktop version of Chrome will auto-minimize notifications after approximately twenty
-          seconds. Set to <code>true</code> or <code>false</code> (defaults to <code>false</code>)
+        <tr>
+          <td><code>description</code></td>
+          <td>no</td>
+          <td>A brief description of your service.</td>
+        </tr>
+        <tr>
+          <td><code>image</code></td>
+          <td>no</td>
+          <td>An image for your service.</td>
+        </tr>
+      </table>
+      <br />
+      The users is shown a nice dialog asking if they want to allow you to send notifications. After
+      they select Allow or Deny, they are redirected to to the specified <code>redirect_url</code>.
+      If the user allowed the request, the redirect will be a POST with a key <code>token</code> which
+      contains that token to send them notifications.
+      <br /><br />
+      <h3>Sending Notifications</h3>
+      Once you have a token for a user, you probably will want to send them a notification! To do
+      this, make an HTTP POST request to <code>{{ url_for('notification.create', _external=true) }}</code>
+      with the following post data:<br /><br />
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tr>
+          <td><code>title</code></td>
+          <td>The title of the notification to show to the user.</td>
+        </tr>
+        <tr>
+          <td><code>body</code></td>
+          <td>The body of the notifications</td>
+        </tr>
+        <tr>
+          <td><code>url</code></td>
+          <td>The URL to send the user to when they click on the notification</td>
         </td>
-      </tr>
-    </table>
-    <br />
-    Use standard HTTP authorization, the username must be <code>token</code>, the password should be
-    the token actual token. For example:
-    <br /><br />
-    <code>
-      curl -u "token:ITOd2_SxNuiG4O4ZJFptCrKZ9K8GTiQGTb68NSDeNVMxYPgXISH3ca16ypyfThIb" -d "title=Awesome Notification" -d "body=wow this is so cool" -d "url=https://example.org" {{ url_for('notification.create', _external=true) }}
-    </code>
-    <br /><br />
-    Assuming <code>askdfjsidfasdergasdf</code> is your token
+        <tr>
+          <td><code>icon</code></td>
+          <td>The URL of the icon to display with the notification</td>
+        </tr>
+        <tr>
+          <td><code>requireInteraction</code></td>
+          <td>Indicates that on devices with sufficiently large screens, a notification should remain
+            active until the user clicks or dismisses it. If this value is absent or false, the
+            desktop version of Chrome will auto-minimize notifications after approximately twenty
+            seconds. Set to <code>true</code> or <code>false</code> (defaults to <code>false</code>)
+          </td>
+        </tr>
+      </table>
+      <br />
+      Use standard HTTP authorization, the username must be <code>token</code>, the password should be
+      the token actual token. For example:
+      <br /><br />
+      <code>
+        curl -u "token:ITOd2_SxNuiG4O4ZJFptCrKZ9K8GTiQGTb68NSDeNVMxYPgXISH3ca16ypyfThIb" -d "title=Awesome Notification" -d "body=wow this is so cool" -d "url=https://example.org" {{ url_for('notification.create', _external=true) }}
+      </code>
+      <br /><br />
+      Assuming <code>askdfjsidfasdergasdf</code> is your token
+    </div>
   </div>
 </div>
 {% endblock %}
