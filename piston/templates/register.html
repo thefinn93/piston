@@ -22,8 +22,9 @@ along with Piston.  If not, see <http://www.gnu.org/licenses/>.
   <div class="card-block">
     <h4 class="card-title">Allow {% if c.name is string %}{{ c.name }}{% else %}{{ c.domain }}{% endif %} to send you notifications?</h4>
     <p class="card-subtitle text-muted">
-      {% if c.name is string %}{{ c.name }} (<code>{{ c.domain }}</code>){% else %}{{ c.domain }}{% endif %} would like to send push notifications to your device.
-      You can edit this preference at any time by visiting <a href="{{ url_for('index', _external=true) }}">{{ root }}</a>
+      {% if desktop %}{{ c.name }}{% else %}{% if c.name is string %}{{ c.name }} (<code>{{ c.domain }}</code>){% else %}{{ c.domain }}{% endif %}{% endif %}
+      would like to send push notifications to your device. You can edit this preference at any time by visiting
+      <a href="{{ url_for('index', _external=true) }}">{{ root }}</a>
     </p>
   </div>
 
@@ -41,7 +42,7 @@ along with Piston.  If not, see <http://www.gnu.org/licenses/>.
 
   <div class="card-block text-xs-center yes-notifications hidden">
     <form method="post" action="{{ url_for('register.post_register') }}" class="approval-form">
-      <input type="hidden" name="redirect_url" value="{{ c.redirect_url }}" />
+      {% if not desktop %}<input type="hidden" name="redirect_url" value="{{ c.redirect_url }}" />{% endif %}
       <input type="hidden" name="name" value="{{ c.name }}" />
       <input type="hidden" name="subscription" value="unset" />
       {{ csrf_token() | safe }}

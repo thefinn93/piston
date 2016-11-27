@@ -15,4 +15,10 @@ You should have received a copy of the GNU General Public License
 along with Piston.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-document.querySelector(".redirect-form").submit();
+if(document.querySelector(".redirect-form") !== null) {
+  document.querySelector(".redirect-form").submit();
+}
+
+if(document.querySelector(".token-box") !== null) {
+  document.querySelector(".token-box").select();
+}

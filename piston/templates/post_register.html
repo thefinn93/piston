@@ -17,22 +17,25 @@ along with Piston.  If not, see <http://www.gnu.org/licenses/>.
 
 {% extends 'base.html' %}
 {% block title %}Register{% endblock %}
-{% block content %}
-<div class="card mx-auto">
-
+{% block body %}
+{% if redirect_url is none %}
+<div class="card mx-auto single-card-page">
   <div class="card-block">
-    <h4 class="card-title"></h4>
+    <h4 class="card-title">Authorization Created</h4>
     <p class="card-subtitle text-muted">
-      Forwarding you back to <code>{{ redirect_url }}</code> with token <code>{{ registration.token }}</code>
+      Below is your token, paste it into {{ name }}
     </p>
   </div>
-
+  <div class="card-block">
+    <input type="text" class="form-control token-box" value="{{ token }}" />
+  </div>
 </div>
-
+{% else %}
 <form class="redirect-form" action="{{ redirect_url }}" method="post">
   {% if nonce is not none %}<input type="hidden" name="nonce" value="{{ nonce }}" />{% endif %}
   <input type="hidden" name="token" value="{{ registration.token }}" />
 </form>
+{% endif %}
 {% endblock %}
 
 {% block js %}
